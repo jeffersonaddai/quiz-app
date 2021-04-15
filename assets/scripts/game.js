@@ -10,11 +10,20 @@ let acceptingAnswers = false;
 let score = 0;
 let questionCounter = 0;
 let availableQuesions = [];
-
 let questions = [];
+// Get the category from local storage
+const categoryText = localStorage.getItem('category');
+// map the selected category to the appropriate number based on the api
+const selectedCategory = (categoryText) => {
+    switch(categoryText){
+        case 'generalKnowledge':  return '9'
+        case 'computerScience': return '18'
+        default: return '18'
+    }
+}
 
 fetch(
-    'https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple'
+    `https://opentdb.com/api.php?amount=10&category=${selectedCategory(categoryText)}&type=multiple`
 )
     .then((res) => {
         return res.json();
@@ -52,7 +61,10 @@ const MAX_QUESTIONS = 3;
 
 startGame = () => {
     questionCounter = 0;
-    score = 0;
+    score = {
+        marks : 0,
+        category: localStorage.getItem('category')
+    };
     availableQuesions = [...questions];
     getNewQuestion();
     game.classList.remove('hidden');
@@ -61,7 +73,7 @@ startGame = () => {
 
 getNewQuestion = () => {
     if (availableQuesions.length === 0 || questionCounter >= MAX_QUESTIONS) {
-        localStorage.setItem('mostRecentScore', score);
+        localStorage.setItem('mostRecentScore', JSON.stringify(score));
         //go to the end page
         return window.location.assign('/end.html');
     }
