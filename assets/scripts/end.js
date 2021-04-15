@@ -19,6 +19,7 @@ saveHighScore = (e) => {
     const score = {
         score: mostRecentScore,
         name: username.value,
+        category: localStorage.getItem('category')
     };
     highScores.push(score);
     highScores.sort((a, b) => b.score - a.score);

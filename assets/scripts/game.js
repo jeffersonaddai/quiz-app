@@ -61,10 +61,7 @@ const MAX_QUESTIONS = 3;
 
 startGame = () => {
     questionCounter = 0;
-    score = {
-        marks : 0,
-        category: localStorage.getItem('category')
-    };
+    score = 0;
     availableQuesions = [...questions];
     getNewQuestion();
     game.classList.remove('hidden');
@@ -73,7 +70,7 @@ startGame = () => {
 
 getNewQuestion = () => {
     if (availableQuesions.length === 0 || questionCounter >= MAX_QUESTIONS) {
-        localStorage.setItem('mostRecentScore', JSON.stringify(score));
+        localStorage.setItem('mostRecentScore', score);
         //go to the end page
         return window.location.assign('/end.html');
     }
